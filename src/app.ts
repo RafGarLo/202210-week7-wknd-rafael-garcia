@@ -3,8 +3,8 @@ import cors from 'cors';
 import morgan from 'morgan';
 
 import { CustomError } from './interfaces/error.js';
-import { tableRouter } from './router/table.js';
-import { userRouter } from './router/user.js';
+import { robotRouter } from './router/robot.js';
+
 
 export const app = express();
 app.disable("x-powered-by");
@@ -22,8 +22,8 @@ app.use((req, res, next) => {
     next()
 })
 
-app.use('/tables', tableRouter);
-app.use('/users', userRouter);
+app.use('/robots', robotRouter);
+
 
 app.get('/', (req, res) => {
     res.send('API express de products').end();
