@@ -45,7 +45,7 @@ export class RobotRepository implements Data<Robot> {
         if (result === null) throw new Error('Id Not found');
         return;
     }
-    #disconnect() {
+    disconnect() {
         mongoose.disconnect();
         console.log(mongoose.connection.readyState);
     }

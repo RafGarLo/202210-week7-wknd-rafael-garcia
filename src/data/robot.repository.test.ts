@@ -71,6 +71,8 @@ describe('Given robot repository', () => {
     test('if delete method is incorrect, it should throw an error', async () => {
         expect (async () => {await repository.delete(testIds[3])}).rejects.toThrowError();  
         
-
     })
+    afterAll(async () => {
+        await repository.disconnect();
+    });
 })
