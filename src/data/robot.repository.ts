@@ -7,7 +7,7 @@ export class RobotRepository implements Data<Robot> {
         name: String,
         speed: Number,
         endurance: Number,
-        DateOfCreation: String,
+        dateOfCreation: String,
     });
 
     #Model = model('Robot', this.#schema, 'robots');

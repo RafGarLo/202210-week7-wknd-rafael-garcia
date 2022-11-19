@@ -26,7 +26,7 @@
 # Feel free to take a look at our documentation (https://docs.sonarcloud.io/getting-started/github/)
 # or reach out to our community forum if you need some help (https://community.sonarsource.com/c/help/sc/9)
 
-name: SonarCloud Analysis
+name: Build
 
 on:
   push:
@@ -48,13 +48,14 @@ jobs:
     name: SonarCloud
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
         with:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
       - name: Install modules
         run: npm ci
       - name: Testing coverage
-        run: USER=$USER PASSWORD=$PASSWORD CLUSTER=$CLUSTER npm run test:prod #Change for a valid npm script
+        #run: USER=$USER PASSWORD=$PASSWORD CLUSTER=$CLUSTER npm run test:prod #Change for a valid npm script
+        run: npm run test:prod
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
@@ -65,7 +66,7 @@ jobs:
           args:
             # Unique keys of your project and organization. You can find them in SonarCloud > Information (bottom-left menu)
             # mandatory
-            -Dsonar.projectKey=RafGarLo_week7-wknd-rafael-garcia
+            -Dsonar.projectKey=RafGarLo_202210-week7-wknd-rafael-garcia
             -Dsonar.organization=rafgarlo
             # Comma-separated paths to directories containing main source files.
             #-Dsonar.sources= # optional, default is project base directory
