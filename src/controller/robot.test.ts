@@ -92,13 +92,7 @@ describe('Given robotController', () => {
             RobotRepository.prototype.post = jest.fn().mockRejectedValue([mockData]);
             RobotRepository.prototype.patch = jest.fn().mockRejectedValue([mockData]);
             RobotRepository.prototype.delete = jest.fn().mockRejectedValue([mockData]);
-            const repository = new RobotRepository();
-            const robotController = new RobotController(repository);
-            const req: Partial<Request> = {}
-            const resp: Partial<Response> = {
-            json: jest.fn(),
-        };
-        const next: NextFunction = jest.fn();
+            
         })
         test('Then when getAll cannot get a response, it should return an error', async () => {
             (repository.getAll as jest.Mock).mockRejectedValue('Error');
@@ -139,6 +133,17 @@ describe('Given robotController', () => {
             );
             expect(error).toBeInstanceOf(Error)
             expect(error).toBeInstanceOf(HTTPError)
+        })
+        test('Then if delete has incorrect values, it should return an error', async () => {
+            (repository.delete as jest.Mock).mockRejectedValue('Error');
+            await robotController.delete(
+                req as Request,
+                resp as Response,
+                next as NextFunction
+            );
+            expect(error).toBeInstanceOf(Error)
+            expect(error).toBeInstanceOf(HTTPError)
+
         })
         
 
