@@ -9,5 +9,5 @@ export type Robot = {
     name: string;
     speed: number;
     endurance: number;
-    DateOfCreation: string;
+    dateOfCreation: string;
 }

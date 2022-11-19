@@ -52,7 +52,7 @@ export class RobotController {
     async delete(req: Request, resp: Response, next: NextFunction) {
         try {
             await this.repository.delete(req.params.id);
-            resp.json({})
+            resp.json({id: req.params.id})
         } catch (error) {
             next(this.#createHTTPError(error as Error));
             return;
