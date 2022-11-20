@@ -59,11 +59,11 @@ export class RobotController {
     } 
 
     #createHTTPError (error: Error) {
-        if ((error as Error).message === 'id Not found') {
+        if ((error).message === 'id Not found') {
             const httpError = new HTTPError(
                 404,
                 'Not Found',
-                (error as Error).message
+                (error).message
             );
             return httpError;
 
@@ -71,7 +71,7 @@ export class RobotController {
         const httpError = new HTTPError(
             503,
             'Service unavailable',
-            (error as Error).message
+            (error).message
         );
         return httpError;
     }
