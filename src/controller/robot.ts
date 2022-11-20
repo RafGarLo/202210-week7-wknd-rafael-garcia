@@ -55,7 +55,6 @@ export class RobotController {
             resp.json({id: req.params.id})
         } catch (error) {
             next(this.#createHTTPError(error as Error));
-            return;
         }
     } 
 

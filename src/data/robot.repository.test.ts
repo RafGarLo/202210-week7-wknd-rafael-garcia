@@ -32,15 +32,11 @@ describe('Given robot repository', () => {
         const result = await repository.getAll();
         expect(result[0].name).toEqual(mockData[0].name);
     })
-    test('then when getAll cannot receive correct information, it should throw an error', () => {
-        //
-    })
     test('then get should receive concrete information about specific items', async () =>  {
         const result = await repository.get(testIds[0]);
         expect(result.name).toEqual(mockData[0].name)
     })
     test('When get does not receive correct information, it should throw an error', async () => {
-       
         expect(async () => {await repository.get(testIds[3])}).rejects.toThrowError()
     })
     test('Then post should return the new object just created', async () => {
@@ -64,15 +60,14 @@ describe('Given robot repository', () => {
         }
         expect(async () => { await repository.patch(testIds[3], updatedRobot)}).rejects.toThrowError()
     })
-    test('Then delete should return an empty object', async () => {
+    test('Then delete should return the id of deleted object', async () => {
         const result = await repository.delete(testIds[0]);
-        expect(result).toBeUndefined();
+        expect(result).toEqual({ id: testIds[0] });
     })
     test('if delete method is incorrect, it should throw an error', async () => {
         expect (async () => {await repository.delete(testIds[3])}).rejects.toThrowError();  
-        
-    })
+        })
     afterAll(async () => {
-        await repository.disconnect();
+        repository.disconnect();
     });
 })
