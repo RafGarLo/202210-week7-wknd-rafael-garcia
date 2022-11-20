@@ -26,7 +26,7 @@ export class RobotRepository implements Data<Robot> {
     }
     async get(id: id): Promise<Robot> {
         const result = await this.#Model.findById(id); 
-        if (!result) throw new Error('Not found id');
+        if (!result) throw new Error('id Not found');
         return result as Robot;
     }
     async post(data: Partial<Robot>): Promise<Robot> {
@@ -37,12 +37,12 @@ export class RobotRepository implements Data<Robot> {
         const result = await this.#Model.findByIdAndUpdate(id, data, {
             new: true,
         });
-        if (!result) throw new Error('Id Not found');
+        if (!result) throw new Error('id Not found');
         return result as Robot;
     }
     async delete(id: id): Promise<{ id: id }> {
         const result = await this.#Model.findByIdAndDelete(id);
-        if (result === null) throw new Error('Id Not found');
+        if (result === null) throw new Error('id Not found');
         return { id: id };
     }
     disconnect() {

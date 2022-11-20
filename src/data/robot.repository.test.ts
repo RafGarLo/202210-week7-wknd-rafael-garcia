@@ -1,5 +1,6 @@
 import { dbConnect } from "../db.connect";
 import { RobotRepository } from "./robot.repository";
+import { Mongoose, MongooseError } from 'mongoose';
 
 const mockData = [
     {
@@ -57,14 +58,14 @@ describe('Given robot repository', () => {
         const updatedRobot = {
             name: "Titan"
         }
-        expect(async () => { await repository.patch(testIds[3], updatedRobot)}).rejects.toThrowError()
+        expect(async () => { await repository.patch(testIds[3], updatedRobot)}).rejects.toThrowError(MongooseError)
     })
     test('Then delete should return the id of deleted object', async () => {
         const result = await repository.delete(testIds[0]);
         expect(result).toEqual({ id: testIds[0] });
     })
     test('if delete method is incorrect, it should throw an error', async () => {
-        expect (async () => {await repository.delete(testIds[3])}).rejects.toThrowError();  
+        expect (async () => {await repository.delete(testIds[3])}).rejects.toThrowError(MongooseError);  
         })
     afterAll(async () => {
         repository.disconnect();
