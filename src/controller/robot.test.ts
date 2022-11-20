@@ -146,7 +146,7 @@ describe('Given robotController', () => {
 
         })
         test('Then if createhttperror is called, it should return httpError', async () => {
-           error.message = 'id Not Found';
+            error.message = 'id Not Found';
             await robotController.createHttpError(error);
             expect(error.message).toBe('id Not Found')
         });
