@@ -5,9 +5,8 @@ import morgan from 'morgan';
 import { CustomError } from './interfaces/error.js';
 import { robotRouter } from './router/robot.js';
 
-
 export const app = express();
-app.disable("x-powered-by");
+app.disable('x-powered-by');
 const corsOptions = {
     origin: '*',
 };
@@ -17,16 +16,15 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 app.use((req, res, next) => {
-    const origin = req.header('Origin')  || '*';
-    res.setHeader('Access-Control-Allow-Origin', origin as string)
-    next()
-})
+    const origin = req.header('Origin') || '*';
+    res.setHeader('Access-Control-Allow-Origin', origin as string);
+    next();
+});
 
 app.use('/robots', robotRouter);
 
-
 app.get('/', (req, res) => {
-    res.send('API express de products').end();
+    res.send('API express de Robots').end();
 });
 
 app.use(
