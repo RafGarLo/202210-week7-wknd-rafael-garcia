@@ -12,7 +12,7 @@
         "test": "jest --watchAll --coverage",
         "test:prod": "jest --coverage",
         "start:build": "run-p build start:dev",
-        "dev": "run-p build:dev start:dev"
+        "dev": "run-p build:watch start:dev"
     },
     "keywords": [],
     "author": "",

@@ -4,7 +4,7 @@ import { HTTPError } from '../interfaces/error.js';
 import { readToken } from '../services/auth.js';
 
 interface ExtraRequest extends Request {
-    payload: JwtPayload;
+    payload?: JwtPayload;
 }
 
 export const logged = (
