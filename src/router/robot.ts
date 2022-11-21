@@ -4,9 +4,7 @@ import { RobotRepository } from '../data/robot.repository.js';
 
 export const robotRouter = Router();
 
-
 const controller = new RobotController(new RobotRepository());
-
 
 robotRouter.get('/', controller.getAll.bind(controller));
 robotRouter.get('/:id', controller.get.bind(controller));
