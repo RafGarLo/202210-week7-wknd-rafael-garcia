@@ -2,9 +2,9 @@ import { createToken, readToken } from './auth';
 import jwt from 'jsonwebtoken';
 import { SECRET } from '../config.js';
 // Para mockear el SECRET
-// import * as config from '../config.js';
-// jest.mock('../config.js');
-// config.SECRET = 'fjksdjksfjk'
+import * as config from '../config.js';
+jest.mock('../config.js');
+//config.SECRET = 'fjksdjksfjk'
 
 const mock = {
     userName: 'Pepe',
