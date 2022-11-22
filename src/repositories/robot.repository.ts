@@ -1,33 +1,29 @@
-import mongoose, { Schema, model } from "mongoose";
-import { Robot } from "../entities/robot.js";
-import { Data, id } from "./data.js";
+import mongoose, { model } from 'mongoose';
+import { Robot, robotSchema } from '../entities/robot.js';
+import { Repo, id } from '../repositories/repo.js';
 
-export class RobotRepository implements Data<Robot> {
-    #schema = new Schema({
-        name: String,
-        speed: Number,
-        endurance: Number,
-        dateOfCreation: String,
-    });
+export class RobotRepository implements Repo<Robot> {
+    #Model = model('Robot', robotSchema, 'robots');
 
-    #Model = model('Robot', this.#schema, 'robots');
-
-    constructor() {
-        this.#schema.set('toJSON', {
-            transform: (_document, returnedObject) => {
-                returnedObject.id = returnedObject._id;
-                delete returnedObject.__v;
-                delete returnedObject._id;
-            },
-        })
-    }
     async getAll(): Promise<Array<Robot>> {
         return this.#Model.find();
+        // .populate('owner', {
+        //     name: 1,
+        //     id: 0,
+        // });
     }
     async get(id: id): Promise<Robot> {
-        const result = await this.#Model.findById(id); 
+        const result = await this.#Model.findById(id);
         if (!result) throw new Error('id Not found');
         return result as Robot;
+    }
+    async find(search: {
+        [key: string]: string | number | Date;
+    }): Promise<Robot> {
+        console.log({ search });
+        const result = await this.#Model.findOne(search); //as Robot;
+        if (!result) throw new Error('id Not found');
+        return result as unknown as Robot;
     }
     async post(data: Partial<Robot>): Promise<Robot> {
         const result = await this.#Model.create(data);
@@ -40,10 +36,10 @@ export class RobotRepository implements Data<Robot> {
         if (!result) throw new Error('id Not found');
         return result as Robot;
     }
-    async delete(id: id): Promise<{ id: id }> {
+    async delete(id: id): Promise<id> {
         const result = await this.#Model.findByIdAndDelete(id);
         if (result === null) throw new Error('id Not found');
-        return { id: id };
+        return id;
     }
     disconnect() {
         mongoose.disconnect();
@@ -52,5 +48,5 @@ export class RobotRepository implements Data<Robot> {
 
     getModel() {
         return this.#Model;
-    }   
+    }
 }

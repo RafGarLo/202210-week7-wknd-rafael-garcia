@@ -9,7 +9,7 @@ export class UserRepository implements BasicRepo<User> {
     async get(id: id): Promise<User> {
         const result = await this.#Model.findById(id); //as User;
         if (!result) throw new Error('Not found id');
-        return result as User;
+        return result as unknown as User;
     }
 
     async post(data: Partial<User>): Promise<User> {
@@ -17,10 +17,10 @@ export class UserRepository implements BasicRepo<User> {
         if (typeof data.passwd !== 'string') throw new Error('');
         data.passwd = await passwdEncrypt(data.passwd);
         const result = await this.#Model.create(data);
-        return result as User;
+        return result as unknown as User;
     }
 
-    async find(search: any): Promise<User> {
+    async find(search: { [key: string]: string }): Promise<User> {
         console.log(search);
         const result = await this.#Model.findOne(search); //as User;
         if (!result) throw new Error('Not found id');

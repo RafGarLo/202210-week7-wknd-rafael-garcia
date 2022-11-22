@@ -66,7 +66,7 @@ describe('Given robot repository', () => {
     });
     test('Then delete should return the id of deleted object', async () => {
         const result = await repository.delete(testIds[0]);
-        expect(result).toEqual({ id: testIds[0] });
+        expect(result).toEqual(testIds[0]);
     });
     test('if delete method is incorrect, it should throw an error', async () => {
         expect(async () => {
