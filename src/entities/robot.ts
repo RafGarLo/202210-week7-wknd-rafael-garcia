@@ -1,26 +1,26 @@
-import mongoose, { Schema } from 'mongoose';
+import { Schema, model, Types } from 'mongoose';
 
-export type ProtoRobot = {
+export type ProtoRobotI = {
     name: string;
     img?: string;
     speed?: number;
     endurance?: number;
     date?: string;
-    owner?: typeof mongoose.Types.ObjectId;
+    owner?: Types.ObjectId;
 };
 
-export type Robot = {
+export type RobotI = {
     id: string;
     name: string;
     img: string;
     speed: number;
     endurance: number;
     dateOfCreation: string;
-    owner: typeof mongoose.Types.ObjectId;
+    owner: Types.ObjectId;
 };
 const robotsImagesURL = 'https://robohash.org';
 
-export const robotSchema = new Schema<Robot>({
+export const robotSchema = new Schema<RobotI>({
     name: {
         type: String,
         required: true,
@@ -35,7 +35,7 @@ export const robotSchema = new Schema<Robot>({
     endurance: { type: Number, min: 0, max: 10 },
     dateOfCreation: String,
     owner: {
-        type: mongoose.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'User',
     },
 });
@@ -47,3 +47,5 @@ robotSchema.set('toJSON', {
         delete returnedObject._id;
     },
 });
+
+export const Robot = model<RobotI>('Robot', robotSchema, 'robots');

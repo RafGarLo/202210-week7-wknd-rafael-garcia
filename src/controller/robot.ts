@@ -1,18 +1,23 @@
-import { Robot } from '../entities/robot.js';
+import { RobotI } from '../entities/robot.js';
 import { NextFunction, Request, Response } from 'express';
 import { HTTPError } from '../interfaces/error.js';
 import { ExtraRequest } from '../midllewares/interceptors.js';
 import { User } from '../entities/user.js';
 import { BasicRepo, Repo } from '../repositories/repo.js';
+import createDebug from 'debug';
 
+const debug = createDebug('W8:controllers:robot');
 export class RobotController {
     constructor(
-        public repository: Repo<Robot>,
+        public repository: Repo<RobotI>,
         public userRepo: BasicRepo<User>
-    ) {}
+    ) {
+        debug('instance');
+    }
 
     async getAll(req: Request, resp: Response, next: NextFunction) {
         try {
+            debug('getAll');
             console.log('RobotController getAll');
             const robots = await this.repository.getAll();
             resp.json({ robots });
@@ -27,6 +32,7 @@ export class RobotController {
     }
     async get(req: Request, resp: Response, next: NextFunction) {
         try {
+            debug('get');
             const robot = await this.repository.get(req.params.id);
             resp.json({ robot });
         } catch (error) {
@@ -35,6 +41,7 @@ export class RobotController {
     }
     async post(req: ExtraRequest, resp: Response, next: NextFunction) {
         try {
+            debug('post');
             if (!req.payload) {
                 throw new Error('Invalid payload');
             }
@@ -43,7 +50,10 @@ export class RobotController {
             req.body.owner = user.id;
 
             const robot = await this.repository.post(req.body);
-            resp.json({ robot });
+            // decimos al repo de usuarios que el usuario va a tener un robot mas
+            //this.userRepo.
+
+            resp.status(201).json({ robot });
         } catch (error) {
             const httpError = new HTTPError(
                 503,
@@ -55,6 +65,7 @@ export class RobotController {
     }
     async patch(req: Request, resp: Response, next: NextFunction) {
         try {
+            debug('patch');
             const robot = await this.repository.patch(req.params.id, req.body);
             resp.json({ robot });
         } catch (error) {
@@ -64,6 +75,7 @@ export class RobotController {
 
     async delete(req: Request, resp: Response, next: NextFunction) {
         try {
+            debug('delete');
             await this.repository.delete(req.params.id);
             resp.json({ id: req.params.id });
         } catch (error) {

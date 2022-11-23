@@ -19,7 +19,7 @@ const mockData = [
     },
 ];
 describe('Given robot repository', () => {
-    const repository = new RobotRepository();
+    const repository = RobotRepository.getInstance();
     let testIds: Array<string>;
     beforeAll(async () => {
         await dbConnect();
@@ -78,7 +78,7 @@ describe('Given robot repository', () => {
             await repository.delete('21');
         }).rejects.toThrowError(mongoose.Error.CastError);
     });
-    afterAll(async () => {
-        repository.disconnect();
-    });
+    // afterAll(async () => {
+    //     repository.disconnect();
+    // });
 });

@@ -5,7 +5,7 @@ import { CustomError, HTTPError } from '../interfaces/error';
 import { UserRepository } from '../repositories/user.repository';
 import { RobotRepository } from '../repositories/robot.repository';
 
-jest.mock('../repositories/robot.repository');
+//jest.mock('../repositories/robot.repository');
 
 const mockData = [
     {
@@ -25,26 +25,26 @@ const mockData = [
 ];
 
 describe('Given robotController', () => {
-    RobotRepository.prototype.getAll = jest
-        .fn()
-        .mockResolvedValue(['robotijo']);
+    const repository = RobotRepository.getInstance();
+    const userRepo = UserRepository.getInstance();
+
+    RobotRepository.prototype.getAll = jest.fn().mockResolvedValue(mockData);
     RobotRepository.prototype.get = jest.fn().mockResolvedValue(mockData[0]);
-    RobotRepository.prototype.patch = jest.fn().mockResolvedValue(mockData);
-    RobotRepository.prototype.post = jest.fn().mockResolvedValue(mockData[0]);
+    RobotRepository.prototype.patch = jest.fn().mockResolvedValue(mockData[0]);
+    RobotRepository.prototype.post = jest.fn().mockResolvedValue('newRobot');
     RobotRepository.prototype.delete = jest.fn().mockResolvedValue(mockData);
 
-    const repository = new RobotRepository();
-    const userRepo = new UserRepository();
     const robotController = new RobotController(repository, userRepo);
     const req: Partial<Request> = {};
     const resp: Partial<Response> = {
         json: jest.fn(),
     };
     const next: NextFunction = jest.fn();
+    //const mockResponse = { robots: ['robotijo'] };
 
     test('Then..getAll', async () => {
         await robotController.getAll(req as Request, resp as Response, next);
-        expect(resp.json).toHaveBeenLastCalledWith({ robots: ['robotijo'] });
+        expect(resp.json).toHaveBeenLastCalledWith({ robots: mockData });
     });
 
     test('Then get', async () => {
@@ -54,24 +54,22 @@ describe('Given robotController', () => {
     });
 
     test('Then patch should return a response with an array of mockData', async () => {
-        req.body = mockData[0];
-        req.params = { id: '0' };
         await robotController.patch(
             req as Request,
             resp as Response,
             next as NextFunction
         );
-        expect(resp.json).toHaveBeenCalledWith({ robot: mockData });
+        expect(resp.json).toHaveBeenCalledWith({ robot: mockData[0] });
     });
 
     test('Then post should return a response with an object of mockData', async () => {
-        req.body = mockData[0];
+        //req.body = mockResponse;
         await robotController.post(
             req as Request,
             resp as Response,
             next as NextFunction
         );
-        expect(resp.json).toHaveBeenCalledWith({ robot: mockData[0] });
+        expect(resp.json).toHaveBeenCalledWith({ robots: mockData });
     });
 
     test('Then delete should return a response with deleted object id', async () => {

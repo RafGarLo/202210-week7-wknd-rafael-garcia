@@ -9,7 +9,7 @@ import jwt from 'jsonwebtoken';
 import bc from 'bcryptjs';
 import { SECRET } from '../config.js';
 // Para mockear el SECRET
-import * as config from '../config.js';
+
 jest.mock('../config.js', () => ({
     SECRET: 'fjksdjksfjk',
 }));
